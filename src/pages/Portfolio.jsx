@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import StockCard from "../components/StockCard";
 import StockHistoryChart from "../components/StockHistoryChart";
+import TradeDialog from "../components/TradeDialog";
 import { useAuthStore } from "../store/useAuthStore";
 import { usePortfolioStore } from "../store/usePortfolioStore";
+import { useTradeStore } from "../store/useTradeStore";
 
 const Portfolio = () => {
   const userId = useAuthStore((state) => state.userId);
   const loadPortfolio = usePortfolioStore((state) => state.loadPortfolio);
   const stocks = usePortfolioStore((state) => state.stocks);
+  const tradeDialog = useTradeStore((state) => state.tradeDialog);
+  const openTradeDialog = useTradeStore((state) => state.openTradeDialog);
   const [selectedStockId, setSelectedStockId] = useState(null);
 
   useEffect(() => {
@@ -97,18 +101,22 @@ const Portfolio = () => {
             <div className="mt-auto grid grid-cols-2 gap-2 gap-y-3 pt-6">
               <button
                 type="button"
+                onClick={() => openTradeDialog("buy", selectedStock.id)}
                 className="rounded-xl bg-success px-3 py-2 text-sm font-medium text-textmain transition hover:opacity-90"
               >
                 Buy
               </button>
               <button
                 type="button"
-                className="rounded-xl bg-danger px-3 py-2 text-sm font-medium text-textmain transition hover:opacity-90"
+                onClick={() => openTradeDialog("sell", selectedStock.id)}
+                disabled={!Number(selectedStock.quantity ?? 0)}
+                className="rounded-xl bg-danger px-3 py-2 text-sm font-medium text-textmain transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Sell
               </button>
               <button
                 type="button"
+                onClick={() => openTradeDialog("sellAll", selectedStock.id)}
                 className="col-span-2 rounded-xl border border-danger px-3 py-2 text-sm font-medium text-danger transition hover:bg-danger/10"
               >
                 Sell all
@@ -121,6 +129,13 @@ const Portfolio = () => {
           </div>
         )}
       </div>
+
+      {tradeDialog && (
+        <TradeDialog
+          action={tradeDialog.action}
+          stock={stocks.find((stock) => stock.id === tradeDialog.stockId)}
+        />
+      )}
     </div>
   );
 };
