@@ -4,6 +4,7 @@ import { useTradeStore } from "../store/useTradeStore";
 
 export default function TradeDialog({ stock, action }) {
   const updateQuantity = usePortfolioStore((state) => state.updateQuantity);
+  const addStock = usePortfolioStore((state) => state.addStock);
   const removeStock = usePortfolioStore((state) => state.removeStock);
   const closeTradeDialog = useTradeStore((state) => state.closeTradeDialog);
   const [quantity, setQuantity] = useState("1");
@@ -31,12 +32,17 @@ export default function TradeDialog({ stock, action }) {
       return;
     }
 
-    const nextQuantity =
-      action === "buy"
-        ? currentQuantity + tradeQuantity
-        : currentQuantity - tradeQuantity;
+    if (action === "buyNew") {
+      addStock({ ...stock, quantity: tradeQuantity });
+    } else {
+      const nextQuantity =
+        action === "buy"
+          ? currentQuantity + tradeQuantity
+          : currentQuantity - tradeQuantity;
 
-    updateQuantity(stock.id, nextQuantity);
+      updateQuantity(stock.id, nextQuantity);
+    }
+
     closeTradeDialog();
   };
 
@@ -51,12 +57,12 @@ export default function TradeDialog({ stock, action }) {
             <h2 className="text-xl font-semibold">
               {action === "sellAll"
                 ? `Sell all ${stock.symbol}`
-                : `${action === "buy" ? "Buy" : "Sell"} ${stock.symbol}`}
+                : `${action === "sell" ? "Sell" : "Buy"} ${stock.symbol}`}
             </h2>
             <p className="mt-1 text-sm text-textsecondary">
               {action === "sellAll"
                 ? "Are you sure you want to sell all of this holding?"
-                : `How many shares would you like to ${action}?`}
+                : `How many shares would you like to ${action === "buyNew" ? "buy" : action}?`}
             </p>
           </div>
           <button
@@ -103,10 +109,12 @@ export default function TradeDialog({ stock, action }) {
           <button
             type="submit"
             className={`rounded-xl px-4 py-2 text-sm font-medium text-textmain transition hover:opacity-90 ${
-              action === "buy" ? "bg-success" : "bg-danger"
+              action === "sell" ? "bg-danger" : "bg-success"
             }`}
           >
-            {action === "sellAll" ? "Confirm sell all" : `Confirm ${action}`}
+            {action === "sellAll"
+              ? "Confirm sell all"
+              : `Confirm ${action === "buyNew" ? "buy" : action}`}
           </button>
         </div>
       </form>
