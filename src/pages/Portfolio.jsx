@@ -74,7 +74,13 @@ const Portfolio = () => {
         {selectedStock ? (
           <div className="flex h-full flex-col">
             <div className="mb-6">
-              <p className="text-2xl font-semibold">{selectedStock.symbol}</p>
+              <div className="flex items-center gap-3">
+                <span
+                  className="size-3 rounded-full"
+                  style={{ backgroundColor: selectedStock.accent }}
+                />
+                <p className="text-2xl font-semibold">{selectedStock.symbol}</p>
+              </div>
               <p className="mt-1 text-sm text-textsecondary">
                 {selectedStock.company}
               </p>
@@ -82,7 +88,7 @@ const Portfolio = () => {
 
             <div className="space-y-3">
               {Object.entries(selectedStock)
-                .filter(([key]) => key !== "id")
+                .filter(([key]) => !["id", "accent", "sparkline"].includes(key))
                 .map(([key, value]) => (
                   <div
                     key={key}
