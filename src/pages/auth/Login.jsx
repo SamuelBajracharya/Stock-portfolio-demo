@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaChartLine } from "react-icons/fa";
+import { mockUsers } from "../../data/mockData";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const Login = () => {
   const navigate = useNavigate();
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
+  const setUserName = useAuthStore((state) => state.setUserName);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -29,8 +32,24 @@ const Login = () => {
       return;
     }
 
+    // finding the user in mock users
+    const user = mockUsers.find(
+      (dummyUser) => dummyUser.email === formData.email,
+    );
 
-    navigate("/markets");
+    if (!user) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    if (user.password !== formData.password) {
+      setError("Invalid email or password.");
+      return;
+    }
+    // using zustand store to set the values
+    setIsLoggedIn(true);
+    setUserName(user.name);
+    navigate("/");
   };
 
   return (
@@ -38,17 +57,13 @@ const Login = () => {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center mb-10">
-          <h1 className="text-3xl font-semibold tracking-wide">
-            Stockly
-          </h1>
+          <h1 className="text-3xl font-semibold tracking-wide">Stockly</h1>
         </div>
 
         {/* Login Card */}
         <div className="bg-secondaryBG rounded-3xl p-8">
           <div className="mb-10">
-            <h2 className="text-2xl text-center font-semibold">
-              Welcome back
-            </h2>
+            <h2 className="text-2xl text-center font-semibold">Welcome back</h2>
 
             <p className="text-textsecondary  text-center mt-2 text-sm">
               Sign in to manage your stock portfolio.
@@ -97,11 +112,7 @@ const Login = () => {
             </div>
 
             {/* Error */}
-            {error && (
-              <p className="text-sm text-expense">
-                {error}
-              </p>
-            )}
+            {error && <p className="text-sm text-danger">{error}</p>}
 
             {/* Submit */}
             <button

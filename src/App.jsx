@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Layout from "./components/Layout"
-import Markets from "./pages/Markets"
-import Portfolio from "./pages/Portfolio"
-import Login from "./pages/auth/Login"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
+import Markets from "./pages/Markets";
+import Portfolio from "./pages/Portfolio";
+import Login from "./pages/auth/Login";
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -16,7 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

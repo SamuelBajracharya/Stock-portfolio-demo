@@ -1,30 +1,27 @@
 import { Link, useLocation } from "react-router-dom";
 import { FaChartLine, FaWallet } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { useAuthStore } from "../store/useAuthStore";
 
-const Sidebar = ({ totalInvestment = 0, onLogout }) => {
+const Sidebar = ({ totalInvestment = 0 }) => {
   const location = useLocation();
+  const logout = useAuthStore((state) => state.logout);
 
   const isActive = (path) => {
     return location.pathname === path;
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
+    logout();
 
-    if (onLogout) {
-      onLogout();
-    }
+    
   };
 
   return (
     <aside className="fixed top-4 left-4 w-70 h-[calc(100vh-32px)] bg-secondaryBG rounded-2xl p-5 flex flex-col shadow-lg z-50">
-
       {/* Logo */}
       <div className="h-20 flex items-center justify-center">
-        <h1 className="text-2xl font-semibold text-textmain">
-          Stockly
-        </h1>
+        <h1 className="text-2xl font-semibold text-textmain">Stockly</h1>
       </div>
 
       {/* Total Investment */}
@@ -35,7 +32,8 @@ const Sidebar = ({ totalInvestment = 0, onLogout }) => {
         </div>
 
         <p className="mt-3 text-2xl font-semibold text-textmain">
-          ${totalInvestment.toLocaleString(undefined, {
+          $
+          {totalInvestment.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
@@ -44,7 +42,6 @@ const Sidebar = ({ totalInvestment = 0, onLogout }) => {
 
       {/* Navigation */}
       <nav className="mt-8 space-y-2">
-
         <Link
           to="/"
           className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
@@ -68,7 +65,6 @@ const Sidebar = ({ totalInvestment = 0, onLogout }) => {
           <FaWallet size={18} />
           <span>Portfolio</span>
         </Link>
-
       </nav>
 
       {/* Logout */}
@@ -81,7 +77,6 @@ const Sidebar = ({ totalInvestment = 0, onLogout }) => {
           <span>Logout</span>
         </button>
       </div>
-
     </aside>
   );
 };

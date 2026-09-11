@@ -5,21 +5,24 @@ export const mockUsers = [
     email: "maya.thompson@example.com",
     avatar: "MT",
     role: "Growth investor",
-  },
-  {
+    password: "maya123"
+},
+{
     id: "user-002",
     name: "Daniel Kim",
     email: "daniel.kim@example.com",
     avatar: "DK",
     role: "Long-term investor",
-  },
-  {
+    password: "daniel123"
+},
+{
     id: "user-003",
     name: "Sofia Martinez",
     email: "sofia.martinez@example.com",
     avatar: "SM",
     role: "Value investor",
-  },
+    password: "sofia123"
+},
 ];
 
 export const marketplaceStocks = [
@@ -111,3 +114,60 @@ export const initialPortfolio = [
     purchaseDate: "2024-01-24",
   },
 ];
+
+export const portfolioSeeds = {
+  "user-001": [
+    {
+      id: "user-001-holding-001",
+      symbol: "AAPL",
+      company: "Apple Inc.",
+      quantity: 18,
+      purchasePrice: 164.2,
+      purchaseDate: "2024-02-12",
+    },
+    {
+      id: "user-001-holding-002",
+      symbol: "NVDA",
+      company: "NVIDIA Corporation",
+      quantity: 8,
+      purchasePrice: 612.5,
+      purchaseDate: "2024-03-08",
+    },
+  ],
+  "user-002": [
+    {
+      id: "user-002-holding-001",
+      symbol: "MSFT",
+      company: "Microsoft Corporation",
+      quantity: 10,
+      purchasePrice: 378.75,
+      purchaseDate: "2024-01-24",
+    },
+    {
+      id: "user-002-holding-002",
+      symbol: "AMZN",
+      company: "Amazon.com, Inc.",
+      quantity: 12,
+      purchasePrice: 151.4,
+      purchaseDate: "2024-02-20",
+    },
+  ],
+  "user-003": [
+    {
+      id: "user-003-holding-001",
+      symbol: "TSLA",
+      company: "Tesla, Inc.",
+      quantity: 15,
+      purchasePrice: 194.8,
+      purchaseDate: "2024-01-18",
+    },
+    {
+      id: "user-003-holding-002",
+      symbol: "META",
+      company: "Meta Platforms, Inc.",
+      quantity: 6,
+      purchasePrice: 452.1,
+      purchaseDate: "2024-03-01",
+    },
+  ],
+};
