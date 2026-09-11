@@ -24,7 +24,13 @@
   --text-24: 24px;
   --text-32: 32px;
 }
+@utility scrollbar-hide {
+  scrollbar-width: none;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 body {
   font-family: 'Poppins', sans-serif;

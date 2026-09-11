@@ -7,6 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
   const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   const setUserName = useAuthStore((state) => state.setUserName);
+  const setUserId = useAuthStore((state) => state.setUserId);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -49,6 +50,7 @@ const Login = () => {
     // using zustand store to set the values
     setIsLoggedIn(true);
     setUserName(user.name);
+    setUserId(user.id);
     navigate("/");
   };
 

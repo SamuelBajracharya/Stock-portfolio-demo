@@ -19,7 +19,7 @@ const Navbar = ({ name = "User" }) => {
   const pageName = getPageName(location.pathname);
 
   return (
-    <div className="flex items-center justify-between h-full px-8">
+    <div className="flex items-center justify-between h-full px-8 border-b border-accent/60">
       {/* Page Name */}
       <h1 className="text-2xl font-medium tracking-wide">{pageName}</h1>
 

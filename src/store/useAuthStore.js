@@ -18,9 +18,18 @@ const getStoredUserName = () => {
     return localStorage.getItem("userName") || "User";
 };
 
+const getStoredUserId = () => {
+    if (typeof window === "undefined") {
+        return null;
+    }
+
+    return localStorage.getItem("userId");
+};
+
 export const useAuthStore = create((set) => ({
     isLoggedIn: getStoredLoginState(),
     userName: getStoredUserName(),
+    userId: getStoredUserId(),
 
     // function to set the value of the localstorage and zustand store for isLoggedIn
     setIsLoggedIn: (value) => {
@@ -34,11 +43,16 @@ export const useAuthStore = create((set) => ({
         set({ userName: name });
     },
 
+    setUserId: (id) => {
+        localStorage.setItem("userId", id);
+        set({ userId: id });
+    },
+
     // deleting all the localstorage items on logout
     logout: () => {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userName");
-        set({ isLoggedIn: false });
-        set({ userName: "User" });
+        localStorage.removeItem("userId");
+        set({ isLoggedIn: false, userName: "User", userId: null });
     },
 }));
